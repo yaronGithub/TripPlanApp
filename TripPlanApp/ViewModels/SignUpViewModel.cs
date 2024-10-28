@@ -14,7 +14,7 @@ namespace TripPlanApp.ViewModels
         public SignUpViewModel(TripPlanWebAPIProxy proxy)
         {
             this.proxy = proxy;
-            RegisterCommand = new Command(OnRegister);
+            //RegisterCommand = new Command(OnRegister);
             CancelCommand = new Command(OnCancel);
             ShowPasswordCommand = new Command(OnShowPassword);
             UploadPhotoCommand = new Command(OnUploadPhoto);
@@ -328,7 +328,7 @@ namespace TripPlanApp.ViewModels
         public Command CancelCommand { get; }
 
         //Define a method that will be called when the register button is clicked
-        public async void OnRegister()
+        /*public async void OnRegister()
         {
             ValidateName();
             ValidateLastName();
@@ -378,7 +378,7 @@ namespace TripPlanApp.ViewModels
                     await Application.Current.MainPage.DisplayAlert("Registration", errorMsg, "ok");
                 }
             }
-        }
+        }*/
 
         //Define a method that will be called upon pressing the cancel button
         public void OnCancel()
