@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="TripPlanApp.Views.LoginView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="Login"
+    x:DataType="ViewModels:LoginViewModel">
+    <VerticalStackLayout Padding="20" Spacing="15">
+
+        <Entry
+            IsEnabled="{Binding NotInServerCall}"
+            Keyboard="Email"
+            Placeholder="Email"
+            Text="{Binding Email}" />
+
+        <Entry
+            IsEnabled="{Binding NotInServerCall}"
+            IsPassword="True"
+            Placeholder="Password"
+            Text="{Binding Password}" />
+
+        <Button
+            Command="{Binding LoginCommand}"
+            IsEnabled="{Binding NotInServerCall}"
+            Text="Login" />
+        <Label
+            HorizontalOptions="Center"
+            Text="{Binding ErrorMsg}"
+            TextColor="Red" />
+        <Label
+            HorizontalOptions="Center"
+            IsEnabled="{Binding NotInServerCall}"
+            Text="Don't have an account? Register"
+            TextColor="Blue"
+            VerticalOptions="End">
+            <Label.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding RegisterCommand}" />
+            </Label.GestureRecognizers>
+        </Label>
+        <ActivityIndicator IsRunning="{Binding InServerCall}" Color="Red" />
+    </VerticalStackLayout>
+</ContentPage>
