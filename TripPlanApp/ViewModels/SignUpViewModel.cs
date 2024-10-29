@@ -17,14 +17,12 @@ namespace TripPlanApp.ViewModels
             //RegisterCommand = new Command(OnRegister);
             CancelCommand = new Command(OnCancel);
             ShowPasswordCommand = new Command(OnShowPassword);
-            UploadPhotoCommand = new Command(OnUploadPhoto);
-            PhotoURL = proxy.GetDefaultProfilePhotoUrl();
-            LocalPhotoPath = "";
             IsPassword = true;
             NameError = "Name is required";
             LastNameError = "Last name is required";
             EmailError = "Email is required";
             PasswordError = "Password must be at least 4 characters long and contain letters and numbers";
+            PicId = 0;
         }
 
         //Defiine properties for each field in the registration form including error messages and validation logic
@@ -264,71 +262,25 @@ namespace TripPlanApp.ViewModels
         #endregion Phone
 
 
-        #region Photo
-
-        private string photoURL;
-
-        public string PhotoURL
+        #region Picture
+        private int picId;
+        public int PicId
         {
-            get => photoURL;
+            get => picId;
             set
             {
-                photoURL = value;
-                OnPropertyChanged("PhotoURL");
+                picId = value;
+                OnPropertyChanged("PicId");
             }
         }
-
-        private string localPhotoPath;
-
-        public string LocalPhotoPath
-        {
-            get => localPhotoPath;
-            set
-            {
-                localPhotoPath = value;
-                OnPropertyChanged("LocalPhotoPath");
-            }
-        }
-
-        public Command UploadPhotoCommand { get; }
-        //This method open the file picker to select a photo
-        private async void OnUploadPhoto()
-        {
-            try
-            {
-                var result = await MediaPicker.Default.CapturePhotoAsync(new MediaPickerOptions
-                {
-                    Title = "Please select a photo",
-                });
-
-                if (result != null)
-                {
-                    // The user picked a file
-                    this.LocalPhotoPath = result.FullPath;
-                    this.PhotoURL = result.FullPath;
-                }
-            }
-            catch (Exception ex)
-            {
-            }
-
-        }
-
-        private void UpdatePhotoURL(string virtualPath)
-        {
-            Random r = new Random();
-            PhotoURL = proxy.GetImagesBaseAddress() + virtualPath + "?v=" + r.Next();
-            LocalPhotoPath = "";
-        }
-
-        #endregion
+        #endregion Picture
 
         //Define a command for the register button
         public Command RegisterCommand { get; }
         public Command CancelCommand { get; }
 
         //Define a method that will be called when the register button is clicked
-        /*public async void OnRegister()
+        public async void OnRegister()
         {
             ValidateName();
             ValidateLastName();
@@ -345,6 +297,7 @@ namespace TripPlanApp.ViewModels
                     Email = Email,
                     Passwd = Password,
                     PhoneNumber = PhoneNumber,
+                    PicId = picId,
                 };
 
                 //Call the Register method on the proxy to register the new user
@@ -353,32 +306,32 @@ namespace TripPlanApp.ViewModels
                 InServerCall = false;
 
                 //If the registration was successful, navigate to the login page
-                if (newUser != null)
-                {
-                    //UPload profile imae if needed
-                    if (!string.IsNullOrEmpty(LocalPhotoPath))
-                    {
-                        await proxy.LoginAsync(new LoginInfo { Email = newUser.Email, Passwd = newUser.Passwd });
-                        User? updatedUser = await proxy.UploadProfileImage(LocalPhotoPath);
-                        if (updatedUser == null)
-                        {
-                            InServerCall = false;
-                            await Application.Current.MainPage.DisplayAlert("Registration", "User Data Was Saved BUT Profile image upload failed", "ok");
-                        }
-                    }
-                    InServerCall = false;
+                //if (newUser != null)
+                //{
+                //    //UPload profile imae if needed
+                //    if (!string.IsNullOrEmpty(LocalPhotoPath))
+                //    {
+                //        await proxy.LoginAsync(new LoginInfo { Email = newUser.Email, Passwd = newUser.Passwd });
+                //        User? updatedUser = await proxy.UploadProfileImage(LocalPhotoPath);
+                //        if (updatedUser == null)
+                //        {
+                //            InServerCall = false;
+                //            await Application.Current.MainPage.DisplayAlert("Registration", "User Data Was Saved BUT Profile image upload failed", "ok");
+                //        }
+                //    }
+                //    InServerCall = false;
 
-                    ((App)(Application.Current)).MainPage.Navigation.PopAsync();
-                }
-                else
-                {
+                //    ((App)(Application.Current)).MainPage.Navigation.PopAsync();
+                //}
+                //else
+                //{
 
-                    //If the registration failed, display an error message
-                    string errorMsg = "Registration failed. Please try again.";
-                    await Application.Current.MainPage.DisplayAlert("Registration", errorMsg, "ok");
-                }
+                //    //If the registration failed, display an error message
+                //    string errorMsg = "Registration failed. Please try again.";
+                //    await Application.Current.MainPage.DisplayAlert("Registration", errorMsg, "ok");
+                //}
             }
-        }*/
+        }
 
         //Define a method that will be called upon pressing the cancel button
         public void OnCancel()

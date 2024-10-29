@@ -1,4 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
+using Microsoft.Win32;
+using TripPlanApp.ViewModels;
+using TripPlanApp.Views;
+using TripPlanApp.Services;
 
 namespace TripPlanApp
 {
@@ -13,13 +17,37 @@ namespace TripPlanApp
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
-                });
+                })
+                .RegisterDataServices()
+                .RegisterPages()
+                .RegisterViewModels();
 
 #if DEBUG
     		builder.Logging.AddDebug();
 #endif
 
             return builder.Build();
+        }
+
+        public static MauiAppBuilder RegisterPages(this MauiAppBuilder builder)
+        {
+            builder.Services.AddTransient<LoginView>();
+            builder.Services.AddTransient<SignUpView>();
+            builder.Services.AddTransient<AppShell>();
+
+            return builder;
+        }
+
+        public static MauiAppBuilder RegisterDataServices(this MauiAppBuilder builder)
+        {
+            builder.Services.AddSingleton<TripPlanWebAPIProxy>();
+            return builder;
+        }
+        public static MauiAppBuilder RegisterViewModels(this MauiAppBuilder builder)
+        {
+            builder.Services.AddTransient<LoginViewModel>();
+            builder.Services.AddTransient<SignUpViewModel>();
+            return builder;
         }
     }
 }
