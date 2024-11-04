@@ -3,8 +3,9 @@
     x:Class="TripPlanApp.Views.SignUpView"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:viewmodels="clr-namespace:TripPlanApp.ViewModels"
     Title="SignUpView"
-    x:DataType="ViewModels:SignUpViewModel">
+    x:DataType="viewmodels:SignUpViewModel">
 
     <Grid>
 
@@ -12,6 +13,7 @@
         <!--  Main Content  -->
         <VerticalStackLayout Padding="20" IsEnabled="{Binding NotInServerCall}">
             <!--  Photo  -->
+            <!--
             <Frame
                 Margin="10"
                 Padding="5"
@@ -40,6 +42,8 @@
                     </Label>
                 </Grid>
             </Frame>
+            -->
+            
             <!--  First Name  -->
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -135,6 +139,40 @@
                     Command="{Binding ShowPasswordCommand}"
                     HeightRequest="25"
                     Source="passwordeye.jpg" />
+            </Grid>
+
+            <!--  Phone number  -->
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Label
+        Grid.Column="0"
+        Style="{StaticResource labelNameStyle}"
+        Text="Phone number" />
+                <Label
+        Grid.Column="1"
+        IsVisible="{Binding ShowPasswordError}"
+        Style="{StaticResource labelErrorStyle}"
+        Text="{Binding PasswordError}" />
+            </Grid>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="40" />
+                </Grid.ColumnDefinitions>
+                <Entry
+        Grid.Column="0"
+        IsPassword="{Binding IsPassword}"
+        Placeholder="Type Phone number"
+        Style="{StaticResource entryStyle}"
+        Text="{Binding PhoneNumber}" />
+                <ImageButton
+        Grid.Column="1"
+        Command="{Binding ShowPasswordCommand}"
+        HeightRequest="25"
+        Source="passwordeye.jpg" />
             </Grid>
 
             <!--  Register and Cancel Buttons  -->

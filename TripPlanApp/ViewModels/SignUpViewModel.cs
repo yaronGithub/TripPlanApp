@@ -14,7 +14,7 @@ namespace TripPlanApp.ViewModels
         public SignUpViewModel(TripPlanWebAPIProxy proxy)
         {
             this.proxy = proxy;
-            //RegisterCommand = new Command(OnRegister);
+            RegisterCommand = new Command(OnRegister);
             CancelCommand = new Command(OnCancel);
             ShowPasswordCommand = new Command(OnShowPassword);
             IsPassword = true;
@@ -306,30 +306,30 @@ namespace TripPlanApp.ViewModels
                 InServerCall = false;
 
                 //If the registration was successful, navigate to the login page
-                //if (newUser != null)
-                //{
-                //    //UPload profile imae if needed
-                //    if (!string.IsNullOrEmpty(LocalPhotoPath))
-                //    {
-                //        await proxy.LoginAsync(new LoginInfo { Email = newUser.Email, Passwd = newUser.Passwd });
-                //        User? updatedUser = await proxy.UploadProfileImage(LocalPhotoPath);
-                //        if (updatedUser == null)
-                //        {
-                //            InServerCall = false;
-                //            await Application.Current.MainPage.DisplayAlert("Registration", "User Data Was Saved BUT Profile image upload failed", "ok");
-                //        }
-                //    }
-                //    InServerCall = false;
+                if (newUser != null)
+                {
+                    //UPload profile image if needed
+                    //if (!string.IsNullOrEmpty(LocalPhotoPath))
+                    //{
+                    //    await proxy.LoginAsync(new LoginInfo { Email = newUser.Email, Passwd = newUser.Passwd });
+                    //    User? updatedUser = await proxy.UploadProfileImage(LocalPhotoPath);
+                    //    if (updatedUser == null)
+                    //    {
+                    //        InServerCall = false;
+                    //        await Application.Current.MainPage.DisplayAlert("Registration", "User Data Was Saved BUT Profile image upload failed", "ok");
+                    //    }
+                    //}
+                    //InServerCall = false;
 
-                //    ((App)(Application.Current)).MainPage.Navigation.PopAsync();
-                //}
-                //else
-                //{
+                    ((App)(Application.Current)).MainPage.Navigation.PopAsync();
+                }
+                else
+                {
 
-                //    //If the registration failed, display an error message
-                //    string errorMsg = "Registration failed. Please try again.";
-                //    await Application.Current.MainPage.DisplayAlert("Registration", errorMsg, "ok");
-                //}
+                    //If the registration failed, display an error message
+                    string errorMsg = "Registration failed. Please try again.";
+                    await Application.Current.MainPage.DisplayAlert("Registration", errorMsg, "ok");
+                }
             }
         }
 

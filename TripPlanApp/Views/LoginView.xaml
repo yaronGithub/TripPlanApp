@@ -3,22 +3,42 @@
     x:Class="TripPlanApp.Views.LoginView"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:viewmodels="clr-namespace:TripPlanApp.ViewModels"
     Title="Login"
-    x:DataType="ViewModels:LoginViewModel">
+    x:DataType="viewmodels:LoginViewModel">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="headingStyle" TargetType="Label">
+                <Setter Property="FontSize" Value="25"/>
+                <Setter Property="HorizontalOptions" Value="Center"/>
+            </Style>
+            <Style x:Key="errorLabel" TargetType="Label">
+                <Setter Property="FontSize" Value="15"/>
+                <Setter Property="TextColor" Value="Red"/>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <VerticalStackLayout Padding="20" Spacing="15">
-
+        
+        <!-- Email -->
+        <Label Text="Email"/>
         <Entry
             IsEnabled="{Binding NotInServerCall}"
             Keyboard="Email"
             Placeholder="Email"
             Text="{Binding Email}" />
+        <Label Text="{Binding EmailError}" IsVisible="{Binding ShowEmailError}" Style="{StaticResource errorLabel}"/>
 
+        <!-- Password -->
+        <Label Text="Password" />
         <Entry
             IsEnabled="{Binding NotInServerCall}"
             IsPassword="True"
             Placeholder="Password"
-            Text="{Binding Password}" />
-
+            Text="{Binding Password}"/>
+        <Label Text="{Binding PasswordError}" IsVisible="{Binding ShowPasswordError}" Style="{StaticResource errorLabel}"/>
+        
+        <!-- Login button -->
         <Button
             Command="{Binding LoginCommand}"
             IsEnabled="{Binding NotInServerCall}"
