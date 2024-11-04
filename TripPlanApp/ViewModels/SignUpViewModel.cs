@@ -22,7 +22,7 @@ namespace TripPlanApp.ViewModels
             LastNameError = "Last name is required";
             EmailError = "Email is required";
             PasswordError = "Password must be at least 4 characters long and contain letters and numbers";
-            PicId = 0;
+            PicId = null;
         }
 
         //Defiine properties for each field in the registration form including error messages and validation logic
@@ -263,8 +263,8 @@ namespace TripPlanApp.ViewModels
 
 
         #region Picture
-        private int picId;
-        public int PicId
+        private int? picId;
+        public int? PicId
         {
             get => picId;
             set
