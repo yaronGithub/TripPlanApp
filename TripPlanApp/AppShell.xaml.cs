@@ -1,10 +1,19 @@
-﻿namespace TripPlanApp
+﻿using TripPlanApp.ViewModels;
+
+namespace TripPlanApp
 {
     public partial class AppShell : Shell
     {
-        public AppShell()
+        public AppShell(AppShellViewModel vm)
         {
+            this.BindingContext = vm;
             InitializeComponent();
+            RegisterRoutes();
+        }
+
+        void RegisterRoutes()
+        {
+            //Routing.RegisterRoute("", typeof());
         }
     }
 }

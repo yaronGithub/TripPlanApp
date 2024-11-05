@@ -6,7 +6,7 @@
     xmlns:views="clr-namespace:TripPlanApp.Views"
     xmlns:local="clr-namespace:TripPlanApp"
     Title="TripPlanApp"
-    Shell.FlyoutBehavior="Disabled">
+    Shell.FlyoutBehavior="Flyout">
 
     <ShellContent
         Title="Home"

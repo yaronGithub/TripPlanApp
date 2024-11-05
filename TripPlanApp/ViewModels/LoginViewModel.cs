@@ -154,11 +154,14 @@ namespace TripPlanApp.ViewModels
             else
             {
                 ErrorMsg = "";
+                await Application.Current.MainPage.DisplayAlert("Login", $"Login Succeeded!", "ok");//if the check returned not null means that the user exist, shows a message
+                
                 //Navigate to the main page
                 AppShell shell = serviceProvider.GetService<AppShell>();
+
                 
                 ((App)Application.Current).MainPage = shell;
-                //Shell.Current.FlyoutIsPresented = false; //close the flyout
+                Shell.Current.FlyoutIsPresented = false; //close the flyout
                 //Shell.Current.GoToAsync("Tasks"); //Navigate to the Tasks tab page
             }
         }

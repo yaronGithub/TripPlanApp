@@ -34,6 +34,7 @@ namespace TripPlanApp
             builder.Services.AddTransient<LoginView>();
             builder.Services.AddTransient<SignUpView>();
             builder.Services.AddTransient<AppShell>();
+            builder.Services.AddTransient<PublishedPlanningsView>();
 
             return builder;
         }
@@ -47,6 +48,8 @@ namespace TripPlanApp
         {
             builder.Services.AddTransient<LoginViewModel>();
             builder.Services.AddTransient<SignUpViewModel>();
+            builder.Services.AddTransient<AppShellViewModel>();
+            builder.Services.AddTransient<PublishedPlanningsViewModel>();
             return builder;
         }
     }
