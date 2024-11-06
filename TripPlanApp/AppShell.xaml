@@ -4,12 +4,13 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:TripPlanApp"
+    xmlns:views="clr-namespace:TripPlanApp.Views"
     Title="TripPlanApp"
     Shell.FlyoutBehavior="Disabled">
 
     <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
+        Title="Login Page"
+        ContentTemplate="{DataTemplate views:LoginView}"
+        Route="login" />
 
 </Shell>

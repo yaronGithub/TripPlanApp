@@ -3,43 +3,16 @@
     x:Class="TripPlanApp.Views.SignUpView"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:viewmodels="clr-namespace:TripPlanApp.ViewModels"
     Title="SignUpView"
-    x:DataType="ViewModels:SignUpViewModel">
+    x:DataType="viewmodels:SignUpViewModel">
 
     <Grid>
 
 
         <!--  Main Content  -->
         <VerticalStackLayout Padding="20" IsEnabled="{Binding NotInServerCall}">
-            <!--  Photo  -->
-            <Frame
-                Margin="10"
-                Padding="5"
-                BorderColor="Black">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <Image
-                        x:Name="theImageBug"
-                        HeightRequest="150"
-                        Source="{Binding PhotoURL}" />
-                    <Label
-                        Grid.Row="1"
-                        HorizontalOptions="Center"
-                        Text="Click Here To Upload Photo!"
-                        TextColor="Blue"
-                        VerticalOptions="End">
-                        <Label.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding UploadPhotoCommand}" />
-                        </Label.GestureRecognizers>
-                    </Label>
-                </Grid>
-            </Frame>
+            
             <!--  First Name  -->
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -135,6 +108,39 @@
                     Command="{Binding ShowPasswordCommand}"
                     HeightRequest="25"
                     Source="passwordeye.jpg" />
+            </Grid>
+
+            <!--  Phone Number  -->
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Label
+                    Grid.Column="0"
+                    Style="{StaticResource labelNameStyle}"
+                    Text="Phone number" />
+                    <Label
+                Grid.Column="1"
+                IsVisible="{Binding ShowPasswordError}"
+                Style="{StaticResource labelErrorStyle}"
+                Text="{Binding PasswordError}" />
+            </Grid>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="40" />
+                </Grid.ColumnDefinitions>
+                <Entry
+        Grid.Column="0"
+        Placeholder="Type phone number"
+        Style="{StaticResource entryStyle}"
+        Text="{Binding PhoneNumber}" />
+                <ImageButton
+        Grid.Column="1"
+        Command="{Binding ShowPasswordCommand}"
+        HeightRequest="25"
+        Source="passwordeye.jpg" />
             </Grid>
 
             <!--  Register and Cancel Buttons  -->

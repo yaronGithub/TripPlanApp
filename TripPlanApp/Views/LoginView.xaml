@@ -3,8 +3,9 @@
     x:Class="TripPlanApp.Views.LoginView"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:viewmodels="clr-namespace:TripPlanApp.ViewModels"
     Title="Login"
-    x:DataType="ViewModels:LoginViewModel">
+    x:DataType="viewmodels:LoginViewModel">
     <VerticalStackLayout Padding="20" Spacing="15">
 
         <Entry
