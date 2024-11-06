@@ -1,18 +1,17 @@
-﻿using TripPlanApp.ViewModels;
-
-namespace TripPlanApp
+﻿namespace TripPlanApp
 {
     public partial class AppShell : Shell
     {
-        public AppShell()
+        public AppShell(AppShellViewModel vm)
         {
             InitializeComponent();
+            RegisterRoutes();
         }
 
-        public AppShell(ShellViewModel vm)
+        void RegisterRoutes()
         {
-            this.BindingContext = vm;
-            InitializeComponent();
+            Routing.RegisterRoute("publishedPlannings", typeof(PublishedPlanningsView));
+            Routing.RegisterRoute("editProfile", typeof(EditProfileView));
         }
     }
 }

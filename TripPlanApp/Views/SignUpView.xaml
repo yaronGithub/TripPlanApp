@@ -12,6 +12,37 @@
 
         <!--  Main Content  -->
         <VerticalStackLayout Padding="20" IsEnabled="{Binding NotInServerCall}">
+            <!--  Photo  -->
+            <!--
+            <Frame
+                Margin="10"
+                Padding="5"
+                BorderColor="Black">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Image
+                        x:Name="theImageBug"
+                        HeightRequest="150"
+                        Source="{Binding PhotoURL}" />
+                    <Label
+                        Grid.Row="1"
+                        HorizontalOptions="Center"
+                        Text="Click Here To Upload Photo!"
+                        TextColor="Blue"
+                        VerticalOptions="End">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding UploadPhotoCommand}" />
+                        </Label.GestureRecognizers>
+                    </Label>
+                </Grid>
+            </Frame>
+            -->
             
             <!--  First Name  -->
             <Grid>
@@ -110,21 +141,21 @@
                     Source="passwordeye.jpg" />
             </Grid>
 
-            <!--  Phone Number  -->
+            <!--  Phone number  -->
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Label
-                    Grid.Column="0"
-                    Style="{StaticResource labelNameStyle}"
-                    Text="Phone number" />
-                    <Label
-                Grid.Column="1"
-                IsVisible="{Binding ShowPasswordError}"
-                Style="{StaticResource labelErrorStyle}"
-                Text="{Binding PasswordError}" />
+        Grid.Column="0"
+        Style="{StaticResource labelNameStyle}"
+        Text="Phone number" />
+                <Label
+        Grid.Column="1"
+        IsVisible="{Binding ShowPasswordError}"
+        Style="{StaticResource labelErrorStyle}"
+        Text="{Binding PasswordError}" />
             </Grid>
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -133,7 +164,8 @@
                 </Grid.ColumnDefinitions>
                 <Entry
         Grid.Column="0"
-        Placeholder="Type phone number"
+        IsPassword="{Binding IsPassword}"
+        Placeholder="Type Phone number"
         Style="{StaticResource entryStyle}"
         Text="{Binding PhoneNumber}" />
                 <ImageButton
