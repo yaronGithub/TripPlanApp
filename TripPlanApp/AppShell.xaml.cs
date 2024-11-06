@@ -1,4 +1,5 @@
 ﻿using TripPlanApp.ViewModels;
+using TripPlanApp.Views;
 
 namespace TripPlanApp
 {
@@ -13,7 +14,8 @@ namespace TripPlanApp
 
         void RegisterRoutes()
         {
-            //Routing.RegisterRoute("", typeof());
+            Routing.RegisterRoute("publishedPlannings", typeof(PublishedPlanningsView));
+            Routing.RegisterRoute("editProfile", typeof(EditProfileView));
         }
     }
 }
