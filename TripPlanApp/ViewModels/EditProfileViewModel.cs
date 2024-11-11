@@ -24,7 +24,7 @@ namespace TripPlanApp.ViewModels
             IsPassword = true;
             SaveCommand = new Command(OnSave);
             ShowPasswordCommand = new Command(OnShowPassword);
-            //UploadPhotoCommand = new Command(OnUploadPhoto);
+            UploadPhotoCommand = new Command(OnUploadPhoto);
             NameError = "Name is required";
             LastNameError = "Last name is required";
             EmailError = "Email is required";
@@ -252,7 +252,18 @@ namespace TripPlanApp.ViewModels
             IsPassword = !IsPassword;
         }
         #endregion
-
+        #region Phone
+        private string phoneNumber;
+        public string PhoneNumber
+        {
+            get => phoneNumber;
+            set
+            {
+                phoneNumber = value;
+                OnPropertyChanged("PhoneNumber");
+            }
+        }
+        #endregion Phone
         #region Photo
 
         private string photoURL;
@@ -325,18 +336,18 @@ namespace TripPlanApp.ViewModels
 
             if (!ShowNameError && !ShowLastNameError && !ShowEmailError && !ShowPasswordError)
             {
-                /*
                 //Update AppUser object with the data from the Edit form
                 User theUser = ((App)App.Current).LoggedInUser;
                 theUser.FirstName = Name;
                 theUser.LastName = LastName;
                 theUser.Email = Email;
                 theUser.Passwd = Password;
+                theUser.PhoneNumber = PhoneNumber;
 
 
                 //Call the Register method on the proxy to register the new user
                 InServerCall = true;
-                bool success = await proxy.UpdateUser(theUser); !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                bool success = await proxy.UpdateUser(theUser);
 
 
                 //If the save was successful, navigate to the login page
@@ -367,7 +378,6 @@ namespace TripPlanApp.ViewModels
                     string errorMsg = "Save Profile failed. Please try again.";
                     await Shell.Current.DisplayAlert("Save Profile", errorMsg, "ok");
                 }
-                */
             }
         }
     }

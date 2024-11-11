@@ -9,7 +9,7 @@
         <!-- Main Content -->
         <VerticalStackLayout IsEnabled="{Binding NotInServerCall}" Padding="20">
             <!-- Photo -->
-            <!--<Frame BorderColor="Black" Padding="5" Margin="10">
+            <Frame BorderColor="Black" Padding="5" Margin="10">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
@@ -30,7 +30,6 @@ VerticalOptions="End">
                     </Label>
                 </Grid>
             </Frame>
-            -->
             
             <!-- First Name -->
             <Grid>
@@ -64,6 +63,40 @@ VerticalOptions="End">
                 <Label Text="{Binding EmailError}" IsVisible="{Binding ShowEmailError}" Grid.Column="1" Style="{StaticResource labelErrorStyle}" />
             </Grid>
             <Entry Placeholder="Type Email" Text="{Binding Email}" Style="{StaticResource entryStyle}" />
+
+            <!--  Phone number  -->
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Label
+Grid.Column="0"
+Style="{StaticResource labelNameStyle}"
+Text="Phone number" />
+                <Label
+Grid.Column="1"
+IsVisible="{Binding ShowPasswordError}"
+Style="{StaticResource labelErrorStyle}"
+Text="{Binding PasswordError}" />
+            </Grid>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="40" />
+                </Grid.ColumnDefinitions>
+                <Entry
+Grid.Column="0"
+IsPassword="{Binding IsPassword}"
+Placeholder="Type Phone number"
+Style="{StaticResource entryStyle}"
+Text="{Binding PhoneNumber}" />
+                <ImageButton
+Grid.Column="1"
+Command="{Binding ShowPasswordCommand}"
+HeightRequest="25"
+Source="passwordeye.jpg" />
+            </Grid>
 
             <!-- Password -->
             <Grid>
