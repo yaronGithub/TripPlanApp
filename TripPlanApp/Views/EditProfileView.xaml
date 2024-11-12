@@ -20,10 +20,10 @@
                     </Grid.ColumnDefinitions>
                     <Image x:Name="theImageBug" Source="{Binding PhotoURL}"  HeightRequest="150"/>
                     <Label Grid.Row="1"
-Text="Click Here To Upload Photo!"
-TextColor="Blue"
-HorizontalOptions="Center"
-VerticalOptions="End">
+                        Text="Click Here To Upload Photo!"
+                        TextColor="Blue"
+                        HorizontalOptions="Center"
+                        VerticalOptions="End">
                         <Label.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding UploadPhotoCommand}"/>
                         </Label.GestureRecognizers>

@@ -155,15 +155,9 @@ VerticalOptions="End">
                 </Grid.ColumnDefinitions>
                 <Entry
         Grid.Column="0"
-        IsPassword="{Binding IsPassword}"
         Placeholder="Type Phone number"
         Style="{StaticResource entryStyle}"
         Text="{Binding PhoneNumber}" />
-                <ImageButton
-        Grid.Column="1"
-        Command="{Binding ShowPasswordCommand}"
-        HeightRequest="25"
-        Source="passwordeye.jpg" />
             </Grid>
 
             <!--  Register and Cancel Buttons  -->

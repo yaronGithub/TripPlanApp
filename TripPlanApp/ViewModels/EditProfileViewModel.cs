@@ -312,7 +312,6 @@ namespace TripPlanApp.ViewModels
             catch (Exception ex)
             {
             }
-
         }
 
         private void UpdatePhotoURL(string virtualPath)
@@ -327,7 +326,7 @@ namespace TripPlanApp.ViewModels
         //Define a command for the Save button
         public Command SaveCommand { get; }
 
-        //Define a method that will be called when the register button is clicked
+        //Define a method that will be called when the save button is clicked
         public async void OnSave()
         {
             ValidateName();
@@ -345,8 +344,7 @@ namespace TripPlanApp.ViewModels
                 theUser.Passwd = Password;
                 theUser.PhoneNumber = PhoneNumber;
 
-
-                //Call the Register method on the proxy to register the new user
+                //Call the Register method on the proxy to update the current user
                 InServerCall = true;
                 bool success = await proxy.UpdateUser(theUser);
 
@@ -367,7 +365,6 @@ namespace TripPlanApp.ViewModels
                             theUser.ProfileImagePath = updatedUser.ProfileImagePath;
                             UpdatePhotoURL(theUser.ProfileImagePath);
                         }
-
                     }
                     InServerCall = false;
                     await Shell.Current.DisplayAlert("Save Profile", "Profile saved successfully", "ok");

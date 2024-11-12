@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TripPlanApp.Models;
 using TripPlanApp.Views;
+using TripPlanApp.Services;
 
 namespace TripPlanApp.ViewModels
 {
@@ -12,10 +13,14 @@ namespace TripPlanApp.ViewModels
     {
         private User? currentUser;
         private IServiceProvider serviceProvider;
-        public AppShellViewModel(IServiceProvider serviceProvider)
+
+        private TripPlanWebAPIProxy proxy;
+        public AppShellViewModel(IServiceProvider serviceProvider, TripPlanWebAPIProxy proxy)
         {
             this.serviceProvider = serviceProvider;
             this.currentUser = ((App)Application.Current).LoggedInUser;
+            this.proxy = proxy;
+            UserImage = proxy.GetImagesBaseAddress() + ((App)Application.Current).LoggedInUser.ProfileImagePath.Substring(1);
         }
         public AppShellViewModel() { }
 
