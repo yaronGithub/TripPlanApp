@@ -9,6 +9,10 @@
 
     <FlyoutItem FlyoutDisplayOptions="AsMultipleItems" Route="tabs">
         <ShellContent
+            Title="User Plannings" Icon="profile.png"
+            ContentTemplate="{DataTemplate views:UserPageView}"
+            Route="UserPage" />
+        <ShellContent
             Title="Published Plannings" Icon="vacation.png"
             ContentTemplate="{DataTemplate views:PublishedPlanningsView}"
             Route="PublishedPlannings" />

@@ -19,6 +19,7 @@ namespace TripPlanApp.ViewModels
             LastName = theUser.LastName;
             Email = theUser.Email;
             Password = theUser.Passwd;
+            PhoneNumber = theUser.PhoneNumber;
             UpdatePhotoURL(theUser.ProfileImagePath);
             LocalPhotoPath = "";
             IsPassword = true;

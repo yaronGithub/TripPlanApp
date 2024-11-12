@@ -16,6 +16,7 @@ namespace TripPlanApp
         {
             Routing.RegisterRoute("publishedPlannings", typeof(PublishedPlanningsView));
             Routing.RegisterRoute("editProfile", typeof(EditProfileView));
+            Routing.RegisterRoute("userPage", typeof(UserPageView));
         }
     }
 }

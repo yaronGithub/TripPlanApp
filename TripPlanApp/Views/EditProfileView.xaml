@@ -71,14 +71,14 @@ VerticalOptions="End">
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Label
-Grid.Column="0"
-Style="{StaticResource labelNameStyle}"
-Text="Phone number" />
+                    Grid.Column="0"
+                    Style="{StaticResource labelNameStyle}"
+                    Text="Phone number" />
                 <Label
-Grid.Column="1"
-IsVisible="{Binding ShowPasswordError}"
-Style="{StaticResource labelErrorStyle}"
-Text="{Binding PasswordError}" />
+                    Grid.Column="1"
+                    IsVisible="{Binding ShowPasswordError}"
+                    Style="{StaticResource labelErrorStyle}"
+                    Text="{Binding PasswordError}" />
             </Grid>
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -86,16 +86,10 @@ Text="{Binding PasswordError}" />
                     <ColumnDefinition Width="40" />
                 </Grid.ColumnDefinitions>
                 <Entry
-Grid.Column="0"
-IsPassword="{Binding IsPassword}"
-Placeholder="Type Phone number"
-Style="{StaticResource entryStyle}"
-Text="{Binding PhoneNumber}" />
-                <ImageButton
-Grid.Column="1"
-Command="{Binding ShowPasswordCommand}"
-HeightRequest="25"
-Source="passwordeye.jpg" />
+                    Grid.Column="0"
+                    Placeholder="Type Phone number"
+                    Style="{StaticResource entryStyle}"
+                    Text="{Binding PhoneNumber}" />
             </Grid>
 
             <!-- Password -->

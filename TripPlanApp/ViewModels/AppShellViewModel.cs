@@ -19,6 +19,20 @@ namespace TripPlanApp.ViewModels
         }
         public AppShellViewModel() { }
 
+        #region user image
+        // image url property
+        private string userImage;
+        public string UserImage
+        {
+            get => userImage;
+            set
+            {
+                userImage = value;
+                OnPropertyChanged("UserImage");
+            }
+        }
+        #endregion user image
+
         //this command will be used for logout menu item
         public Command LogoutCommand
         {

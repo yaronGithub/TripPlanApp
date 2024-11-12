@@ -3,16 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TripPlanApp.Models;
-using TripPlanApp.Views;
 
 namespace TripPlanApp.ViewModels
 {
-    public class ShellViewModel : ViewModelBase
+    public class UserPageViewModel : ViewModelBase
     {
-        public ShellViewModel()
-        {
 
-        }
     }
 }

@@ -25,10 +25,13 @@ namespace TripPlanApp.ViewModels
             password = "";
             InServerCall = false;
             errorMsg = "";
+            EmailError = "Email is required";
+            PasswordError = "Password must be at least 4 characters long and contain letters and numbers";
         }
 
         #region Email
-        private bool showEmailError;//if needed to show the email error
+        private bool showEmailError;
+
         public bool ShowEmailError
         {
             get => showEmailError;
@@ -40,20 +43,20 @@ namespace TripPlanApp.ViewModels
         }
 
         private string email;
+
         public string Email
         {
             get => email;
             set
             {
-                if (email != value)
-                {
-                    email = value;
-                    OnPropertyChanged(nameof(Email));
-                }
+                email = value;
+                ValidateEmail();
+                OnPropertyChanged("Email");
             }
         }
 
-        private string emailError;//email error
+        private string emailError;
+
         public string EmailError
         {
             get => emailError;
@@ -63,15 +66,33 @@ namespace TripPlanApp.ViewModels
                 OnPropertyChanged("EmailError");
             }
         }
-        private void ValidateEmail()//validate if the email fild is not empty longer than 5 chars and contains @
-        {
-            this.ShowEmailError = (string.IsNullOrEmpty(Email) || Email.Length < 5 || !Email.Contains('@'));
-            EmailError = "Invalid Email";
-        }
-        #endregion Email
 
+        private void ValidateEmail()
+        {
+            this.ShowEmailError = string.IsNullOrEmpty(Email);
+            if (!ShowEmailError)
+            {
+                //check if email is in the correct format using regular expression
+                if (!System.Text.RegularExpressions.Regex.IsMatch(Email, @"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$"))
+                {
+                    EmailError = "Email is not valid";
+                    ShowEmailError = true;
+                }
+                else
+                {
+                    EmailError = "";
+                    ShowEmailError = false;
+                }
+            }
+            else
+            {
+                EmailError = "Email is required";
+            }
+        }
+        #endregion
         #region Password
-        private bool showPasswordError;//if needed to show the password error
+        private bool showPasswordError;
+
         public bool ShowPasswordError
         {
             get => showPasswordError;
@@ -83,20 +104,20 @@ namespace TripPlanApp.ViewModels
         }
 
         private string password;
+
         public string Password
         {
             get => password;
             set
             {
-                if (password != value)
-                {
-                    password = value;
-                    OnPropertyChanged(nameof(Password));
-                }
+                password = value;
+                ValidatePassword();
+                OnPropertyChanged("Password");
             }
         }
 
-        private string passwordError;//password error
+        private string passwordError;
+
         public string PasswordError
         {
             get => passwordError;
@@ -106,12 +127,41 @@ namespace TripPlanApp.ViewModels
                 OnPropertyChanged("PasswordError");
             }
         }
-        private void ValidatePassword()//validates if the password field is full and there are more the 4 characters in it
+
+        private void ValidatePassword()
         {
-            this.ShowPasswordError = (string.IsNullOrEmpty(Password) || Password.Length < 4);
-            PasswordError = "Invalid Password";
+            //Password must include characters and numbers and be longer than 4 characters
+            if (string.IsNullOrEmpty(password) ||
+                password.Length < 4 ||
+                !password.Any(char.IsDigit) ||
+                !password.Any(char.IsLetter))
+            {
+                this.ShowPasswordError = true;
+            }
+            else
+                this.ShowPasswordError = false;
         }
-        #endregion Password
+
+        //This property will indicate if the password entry is a password
+        private bool isPassword = true;
+        public bool IsPassword
+        {
+            get => isPassword;
+            set
+            {
+                isPassword = value;
+                OnPropertyChanged("IsPassword");
+            }
+        }
+        //This command will trigger on pressing the password eye icon
+        public Command ShowPasswordCommand { get; }
+        //This method will be called when the password eye icon is pressed
+        public void OnShowPassword()
+        {
+            //Toggle the password visibility
+            IsPassword = !IsPassword;
+        }
+        #endregion
 
 
         private string errorMsg;
@@ -136,33 +186,40 @@ namespace TripPlanApp.ViewModels
 
         private async void OnLogin()
         {
-            //Choose the way you want to blobk the page while indicating a server call
-            InServerCall = true;
-            ErrorMsg = "";
-            //Call the server to login
-            LoginInfo loginInfo = new LoginInfo { Email = Email, Passwd = Password };
-            User? u = await this.proxy.LoginAsync(loginInfo);
+            ValidateEmail();
+            ValidatePassword();
 
-            InServerCall = false;
+            if (!ShowEmailError && !ShowPasswordError)
+            {
 
-            //Set the application logged in user to be whatever user returned (null or real user)
-            ((App)Application.Current).LoggedInUser = u;
-            if (u == null)
-            {
-                ErrorMsg = "Invalid email or password";
-            }
-            else
-            {
+                //Choose the way you want to blobk the page while indicating a server call
+                InServerCall = true;
                 ErrorMsg = "";
-                await Application.Current.MainPage.DisplayAlert("Login", $"Login Succeeded!", "ok");//if the check returned not null means that the user exist, shows a message
-                
-                //Navigate to the main page
-                AppShell shell = serviceProvider.GetService<AppShell>();
+                //Call the server to login
+                LoginInfo loginInfo = new LoginInfo { Email = Email, Passwd = Password };
+                User? u = await this.proxy.LoginAsync(loginInfo);
 
-                
-                ((App)Application.Current).MainPage = shell;
-                Shell.Current.FlyoutIsPresented = false; //close the flyout
-                //Shell.Current.GoToAsync("Tasks"); //Navigate to the Tasks tab page
+                InServerCall = false;
+
+                //Set the application logged in user to be whatever user returned (null or real user)
+                ((App)Application.Current).LoggedInUser = u;
+                if (u == null)
+                {
+                    ErrorMsg = "Invalid email or password";
+                }
+                else
+                {
+                    ErrorMsg = "";
+                    await Application.Current.MainPage.DisplayAlert("Login", $"Login Succeeded!", "ok");//if the check returned not null means that the user exist, shows a message
+
+                    //Navigate to the main page
+                    AppShell shell = serviceProvider.GetService<AppShell>();
+
+
+                    ((App)Application.Current).MainPage = shell;
+                    Shell.Current.FlyoutIsPresented = false; //close the flyout
+                                                             //Shell.Current.GoToAsync("Tasks"); //Navigate to the Tasks tab page
+                }
             }
         }
 
