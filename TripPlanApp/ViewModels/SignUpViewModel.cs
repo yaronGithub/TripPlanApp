@@ -26,6 +26,7 @@ namespace TripPlanApp.ViewModels
             UploadPhotoCommand = new Command(OnUploadPhoto);
             PhotoURL = proxy.GetDefaultProfilePhotoUrl();
             LocalPhotoPath = "";
+            PhoneError = "Phone number must be 10 digits, characters are not allowed and ";
         }
 
         //Defiine properties for each field in the registration form including error messages and validation logic
@@ -249,9 +250,19 @@ namespace TripPlanApp.ViewModels
             IsPassword = !IsPassword;
         }
         #endregion
-
-
         #region Phone
+        private bool showPhoneError;
+
+        public bool ShowPhoneError
+        {
+            get => showPhoneError;
+            set
+            {
+                showPhoneError = value;
+                OnPropertyChanged("ShowPhoneError");
+            }
+        }
+
         private string phoneNumber;
         public string PhoneNumber
         {
@@ -262,9 +273,33 @@ namespace TripPlanApp.ViewModels
                 OnPropertyChanged("PhoneNumber");
             }
         }
+
+        private string phoneError;
+
+        public string PhoneError
+        {
+            get => phoneError;
+            set
+            {
+                phoneError = value;
+                OnPropertyChanged("PhoneError");
+            }
+        }
+        
+        private void ValidatePhone()
+        {
+            //Password must include characters and numbers and be longer than 4 characters
+            if (string.IsNullOrEmpty(phoneNumber) ||
+                phoneNumber.Length != 10 ||
+                !phoneNumber.Any(char.IsDigit) ||
+                phoneNumber.Any(char.IsLetter))
+            {
+                this.ShowPhoneError = true;
+            }
+            else
+                this.ShowPhoneError = false;
+        }
         #endregion Phone
-
-
         #region Photo
         private int? picId;
         public int? PicId
@@ -332,6 +367,10 @@ namespace TripPlanApp.ViewModels
             LocalPhotoPath = "";
         }
         #endregion Photo
+        #region IsManager
+        private bool isManager;
+        public bool IsManager { get => false; private set { } }
+        #endregion IsManager
 
         //Define a command for the register button
         public Command RegisterCommand { get; }
@@ -344,8 +383,9 @@ namespace TripPlanApp.ViewModels
             ValidateLastName();
             ValidateEmail();
             ValidatePassword();
+            ValidatePhone();
 
-            if (!ShowNameError && !ShowLastNameError && !ShowEmailError && !ShowPasswordError)
+            if (!ShowNameError && !ShowLastNameError && !ShowEmailError && !ShowPasswordError && !ShowPhoneError)
             {
                 //Create a new AppUser object with the data from the registration form
                 var newUser = new User
@@ -356,6 +396,7 @@ namespace TripPlanApp.ViewModels
                     Passwd = Password,
                     PhoneNumber = PhoneNumber,
                     PicId = picId,
+                    IsManager = this.IsManager
                 };
 
                 //Call the Register method on the proxy to register the new user

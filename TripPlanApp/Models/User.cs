@@ -23,5 +23,6 @@ namespace TripPlanApp.Models
 
         public int? PicId { get; set; }
         public string ProfileImagePath { get; set; } = "";
+        public bool IsManager { get; set; }
     }
 }

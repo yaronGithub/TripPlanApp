@@ -20,6 +20,10 @@
             Title="Profile" Icon="profile.png"
             ContentTemplate="{DataTemplate views:EditProfileView}"
             Route="Profile" />
+        <ShellContent IsVisible="{Binding IsManager}"
+            Title="Admin Page" Icon="manager2.png"
+            ContentTemplate="{DataTemplate views:AdminPageView}"
+            Route="AdminPage" />
 
 
     </FlyoutItem>

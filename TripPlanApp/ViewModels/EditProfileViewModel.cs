@@ -30,6 +30,7 @@ namespace TripPlanApp.ViewModels
             LastNameError = "Last name is required";
             EmailError = "Email is required";
             PasswordError = "Password must be at least 4 characters long and contain letters and numbers";
+            PhoneError = "Phone number must be 10 digits, characters are not allowed and ";
         }
 
         //Defiine properties for each field in the registration form including error messages and validation logic
@@ -254,6 +255,18 @@ namespace TripPlanApp.ViewModels
         }
         #endregion
         #region Phone
+        private bool showPhoneError;
+
+        public bool ShowPhoneError
+        {
+            get => showPhoneError;
+            set
+            {
+                showPhoneError = value;
+                OnPropertyChanged("ShowPhoneError");
+            }
+        }
+
         private string phoneNumber;
         public string PhoneNumber
         {
@@ -263,6 +276,32 @@ namespace TripPlanApp.ViewModels
                 phoneNumber = value;
                 OnPropertyChanged("PhoneNumber");
             }
+        }
+
+        private string phoneError;
+
+        public string PhoneError
+        {
+            get => phoneError;
+            set
+            {
+                phoneError = value;
+                OnPropertyChanged("PhoneError");
+            }
+        }
+
+        private void ValidatePhone()
+        {
+            //Password must include characters and numbers and be longer than 4 characters
+            if (string.IsNullOrEmpty(phoneNumber) ||
+                phoneNumber.Length != 10 ||
+                !phoneNumber.Any(char.IsDigit) ||
+                phoneNumber.Any(char.IsLetter))
+            {
+                this.ShowPhoneError = true;
+            }
+            else
+                this.ShowPhoneError = false;
         }
         #endregion Phone
         #region Photo
@@ -333,8 +372,9 @@ namespace TripPlanApp.ViewModels
             ValidateLastName();
             ValidateEmail();
             ValidatePassword();
+            ValidatePhone();
 
-            if (!ShowNameError && !ShowLastNameError && !ShowEmailError && !ShowPasswordError)
+            if (!ShowNameError && !ShowLastNameError && !ShowEmailError && !ShowPasswordError && !ShowPhoneError)
             {
                 //Update AppUser object with the data from the Edit form
                 User theUser = ((App)App.Current).LoggedInUser;
@@ -343,6 +383,7 @@ namespace TripPlanApp.ViewModels
                 theUser.Email = Email;
                 theUser.Passwd = Password;
                 theUser.PhoneNumber = PhoneNumber;
+                theUser.IsManager = false;
 
                 //Call the Register method on the proxy to update the current user
                 InServerCall = true;

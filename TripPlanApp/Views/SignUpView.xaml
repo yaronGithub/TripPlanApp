@@ -144,9 +144,9 @@ VerticalOptions="End">
         Text="Phone number" />
                 <Label
         Grid.Column="1"
-        IsVisible="{Binding ShowPasswordError}"
+        IsVisible="{Binding ShowPhoneError}"
         Style="{StaticResource labelErrorStyle}"
-        Text="{Binding PasswordError}" />
+        Text="{Binding PhoneError}" />
             </Grid>
             <Grid>
                 <Grid.ColumnDefinitions>

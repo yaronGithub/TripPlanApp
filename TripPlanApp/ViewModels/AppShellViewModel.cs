@@ -37,6 +37,13 @@ namespace TripPlanApp.ViewModels
             }
         }
         #endregion user image
+        public bool IsManager
+        {
+            get
+            {
+                return this.currentUser.IsManager;
+            }
+        }
 
         //this command will be used for logout menu item
         public Command LogoutCommand
