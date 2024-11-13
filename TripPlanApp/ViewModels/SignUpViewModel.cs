@@ -270,6 +270,7 @@ namespace TripPlanApp.ViewModels
             set
             {
                 phoneNumber = value;
+                ValidatePhone();
                 OnPropertyChanged("PhoneNumber");
             }
         }
@@ -297,7 +298,9 @@ namespace TripPlanApp.ViewModels
                 this.ShowPhoneError = true;
             }
             else
+            {
                 this.ShowPhoneError = false;
+            }
         }
         #endregion Phone
         #region Photo

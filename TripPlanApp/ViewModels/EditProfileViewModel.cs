@@ -274,6 +274,7 @@ namespace TripPlanApp.ViewModels
             set
             {
                 phoneNumber = value;
+                ValidatePhone();
                 OnPropertyChanged("PhoneNumber");
             }
         }
