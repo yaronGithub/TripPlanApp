@@ -38,6 +38,7 @@ namespace TripPlanApp
             builder.Services.AddTransient<EditProfileView>();
             builder.Services.AddTransient<UserPageView>();
             builder.Services.AddTransient<AdminPageView>();
+            builder.Services.AddTransient<PlanningPageView>();
 
             return builder;
         }
@@ -56,6 +57,7 @@ namespace TripPlanApp
             builder.Services.AddTransient<EditProfileViewModel>();
             builder.Services.AddTransient<UserPageViewModel>();
             builder.Services.AddTransient<AdminPageViewModel>();
+            builder.Services.AddTransient<PlanningPageViewModel>();
             return builder;
         }
     }
