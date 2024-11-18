@@ -154,10 +154,12 @@ VerticalOptions="End">
                     <ColumnDefinition Width="40" />
                 </Grid.ColumnDefinitions>
                 <Entry
-        Grid.Column="0"
-        Placeholder="Type Phone number"
-        Style="{StaticResource entryStyle}"
-        Text="{Binding PhoneNumber}" />
+                    Grid.Column="0"
+                    Placeholder="Type Phone number"
+                    Style="{StaticResource entryStyle}"
+                    MaxLength="10"
+                    Keyboard="Telephone"
+                    Text="{Binding PhoneNumber}" />
             </Grid>
 
             <!--  Register and Cancel Buttons  -->

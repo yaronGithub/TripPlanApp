@@ -2,11 +2,17 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="TripPlanApp.Views.UserPageView"
-             Title="UserPageView">
+             Title="UserPageView"
+             xmlns:viewmodels="clr-namespace:TripPlanApp.ViewModels"
+             x:DataType="viewmodels:UserPageViewModel">
     <VerticalStackLayout>
         <Label 
             Text="User Page!"
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
+        <Button
+            Command="{Binding AddPlanningCommand}"
+            Style="{StaticResource buttonStyle}"
+            Text="Add Planning" />
     </VerticalStackLayout>
 </ContentPage>

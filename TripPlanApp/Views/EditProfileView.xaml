@@ -89,6 +89,8 @@
                     Grid.Column="0"
                     Placeholder="Type Phone number"
                     Style="{StaticResource entryStyle}"
+                    MaxLength="10"
+                    Keyboard="Telephone"
                     Text="{Binding PhoneNumber}" />
             </Grid>
 
