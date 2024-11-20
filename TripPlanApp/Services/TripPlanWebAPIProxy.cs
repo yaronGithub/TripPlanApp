@@ -50,15 +50,15 @@ namespace TripPlanApp.Services
             string url = $"{this.baseUrl}getAllPlannings";
             try
             {
-                HttpResponseMessage response = await this.client.GetAsync(url + $"&email={email}");
+                HttpResponseMessage response = await this.client.GetAsync(url + $"?email={email}");
                 if (response.IsSuccessStatusCode)
                 {
                     JsonSerializerOptions options = new JsonSerializerOptions
                     {
                         PropertyNameCaseInsensitive = true
                     };
-                    string content = await response.Content.ReadAsStringAsync();
-                    List<PlanGroup>? planGroups = JsonSerializer.Deserialize<List<PlanGroup>?>(content, options);
+                    string resContent = await response.Content.ReadAsStringAsync();
+                    List<PlanGroup>? planGroups = JsonSerializer.Deserialize<List<PlanGroup>?>(resContent, options);
                     if (planGroups == null)
                         return null;
                     return planGroups;
@@ -115,7 +115,7 @@ namespace TripPlanApp.Services
         //This method call the UpdateTask web API on the server and return the UserTask object with
         //all of the  given IDs of all new comment objects that were added
         //or null if the call fails
-        public async Task<PlanGroup?> UpdateTask(PlanGroup plan)
+        public async Task<PlanGroup?> UpdatePlanning(PlanGroup plan)
         {
             //Set URI to the specific function API
             string url = $"{this.baseUrl}updatePlanning";
