@@ -45,6 +45,36 @@ namespace TripPlanApp.Services
         }
 
 
+        public async Task<List<PlanGroup>?> GetAllPlannings(string email)
+        {
+            string url = $"{this.baseUrl}getAllPlannings";
+            try
+            {
+                HttpResponseMessage response = await this.client.GetAsync(url + $"&email={email}");
+                if (response.IsSuccessStatusCode)
+                {
+                    JsonSerializerOptions options = new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    };
+                    string content = await response.Content.ReadAsStringAsync();
+                    List<PlanGroup>? planGroups = JsonSerializer.Deserialize<List<PlanGroup>?>(content, options);
+                    if (planGroups == null)
+                        return null;
+                    return planGroups;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+
         //This methos call the AddPlanning web API on the server and return the PlanGroup object with the given ID
         //or null if the call fails
         public async Task<PlanGroup?> AddPlanning(PlanGroup plan)
