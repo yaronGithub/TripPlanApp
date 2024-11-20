@@ -13,7 +13,7 @@ namespace TripPlanApp.ViewModels
     public class PlanningPageViewModel : ViewModelBase
     {
         private PlanGroup planning;
-        public PlanGroup UserTask
+        public PlanGroup Planning
         {
             get => planning;
             set
