@@ -14,10 +14,9 @@ namespace TripPlanApp.ViewModels
     public class UserPageViewModel : ViewModelBase
     {
         private TripPlanWebAPIProxy proxy;
-        private IServiceProvider serviceProvider;
 
         //This is a List containing all of the user plannings
-        private List<PlanGroup> userPlannings;
+        private List<PlanGroup>? userPlannings;
         //THis is a list of only the tasks that should be displayed on screen
         private ObservableCollection<PlanningDisplay> filteredUserPlannings;
         public ObservableCollection<PlanningDisplay> FilteredUserPlannings
@@ -38,7 +37,7 @@ namespace TripPlanApp.ViewModels
             set
             {
                 searchText = value;
-                FilterPlannings();
+                //FilterPlannings();
                 OnPropertyChanged();
             }
         }
@@ -69,31 +68,86 @@ namespace TripPlanApp.ViewModels
             set
             {
                 selectedPlanning = value;
-                OnPlanningSelected(selectedTask);
+                OnPlanningSelected(selectedPlanning);
                 OnPropertyChanged();
             }
         }
 
 
-        public UserPageViewModel(TripPlanWebAPIProxy proxy, IServiceProvider serviceProvider)
+        public UserPageViewModel(TripPlanWebAPIProxy proxy)
         {
             this.proxy = proxy;
-            this.serviceProvider = serviceProvider;
             AddPlanningCommand = new Command(OnAddPlanning);
-            //this.userPlannings = ((App)Application.Current).LoggedInUser.;
-            FilteredUserTasks = new ObservableCollection<TaskDisplay>();
+
             SearchText = "";
-            showDoneTasks = false;
-            showNotDoneTasks = true;
-            AddNewTaskCommand = new Command(AddNewTask);
-            FilterTasks();
+
+
+            // Initialize userPlannings asynchronously
+            InitializeUserPlannings();
         }
+
+        private async void InitializeUserPlannings()
+        {
+            try
+            {
+                // Get all user plannings
+                userPlannings = await proxy.GetAllPlannings(((App)Application.Current).LoggedInUser.Email);
+
+                // Optionally, update the filtered list after retrieving the data
+                FilteredUserPlannings = new ObservableCollection<PlanningDisplay>(
+                    userPlannings.Select(p => new PlanningDisplay
+                    {
+                        PlanId = p.PlanId,
+                        GroupDescription = p.GroupDescription,
+                        StartDate = p.StartDate,
+                        EndDate = p.EndDate
+                    }));
+            }
+            catch (Exception ex)
+            {
+                // Handle any errors during initialization
+                Console.WriteLine($"Error fetching plannings: {ex.Message}");
+            }
+        }
+
+        //this method will be triggered upon SelectedPlanning property change
+        private async void OnPlanningSelected(PlanGroup planning)
+        {
+            if (planning != null)
+            {
+                var navParam = new Dictionary<string, object>
+                {
+                    { "selectedPlanning", planning }
+                };
+                //Navigate to the task details page
+                await Shell.Current.GoToAsync("planningPage", navParam);
+                SelectedObject = null;
+            }
+        }
+
 
         public ICommand AddPlanningCommand { get; }
 
         private async void OnAddPlanning()
         {
-            ((App)Application.Current).MainPage.Navigation.PushAsync(serviceProvider.GetService<PlanningPageView>());
+            PlanGroup planning = new PlanGroup()
+            {
+                PlanId = 0,
+                GroupDescription = "",
+                StartDate = DateOnly.FromDateTime(DateTime.Now),
+                EndDate = null,
+                UserId = ((App)Application.Current).LoggedInUser.UserId,
+                Reviews = new List<Review>(),
+                Pictures = new List<Picture>(),
+                PlanPlaces = new List<PlanPlace>(),
+                UsersNavigation = new List<User>(),
+
+            };
+            var navParam = new Dictionary<string, object>
+                {
+                    { "selectedPlanning", planning }
+                };
+            await Shell.Current.GoToAsync("planningPage", navParam);
         }
     }
 
