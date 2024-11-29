@@ -6,7 +6,6 @@ using System.Text;
 using System.Threading.Tasks;
 using TripPlanApp.Models;
 using TripPlanApp.Services;
-using static Android.App.ActivityManager;
 
 namespace TripPlanApp.ViewModels
 {
@@ -39,54 +38,54 @@ namespace TripPlanApp.ViewModels
 
         //Define properties for each field in the task form including error messages and validation logic
         #region PlanningDescription
-        private bool showTaskDescriptionError;
-        public bool ShowTaskDescriptionError
+        private bool showPlanningDescriptionError;
+        public bool ShowPlanningDescriptionError
         {
-            get => showTaskDescriptionError;
+            get => showPlanningDescriptionError;
             set
             {
-                showTaskDescriptionError = value;
-                OnPropertyChanged(nameof(ShowTaskDescriptionError));
+                showPlanningDescriptionError = value;
+                OnPropertyChanged(nameof(ShowPlanningDescriptionError));
             }
         }
-        private string taskDescription;
-        public string TaskDescription
+        private string planningDescription;
+        public string PlanningDescription
         {
-            get => taskDescription;
+            get => planningDescription;
             set
             {
-                taskDescription = value;
-                ValidateTaskDescription();
-                OnPropertyChanged(nameof(TaskDescription));
+                planningDescription = value;
+                ValidatePlanningDescription();
+                OnPropertyChanged(nameof(PlanningDescription));
             }
         }
-        private string taskDescriptionError;
-        public string TaskDescriptionError
+        private string planningDescriptionError;
+        public string PlanningDescriptionError
         {
-            get => taskDescriptionError;
+            get => planningDescriptionError;
             set
             {
-                taskDescriptionError = value;
-                OnPropertyChanged(nameof(TaskDescriptionError));
+                planningDescriptionError = value;
+                OnPropertyChanged(nameof(PlanningDescriptionError));
             }
         }
-        public void ValidateTaskDescription()
+        public void ValidatePlanningDescription()
         {
-            this.TaskDescriptionError = "Description is required";
-            this.ShowTaskDescriptionError = string.IsNullOrEmpty(TaskDescription);
+            this.PlanningDescriptionError = "Description is required";
+            this.ShowPlanningDescriptionError = string.IsNullOrEmpty(PlanningDescription);
         }
 
         #endregion PlanningDescription
 
         #region PlanningDueDate
-        private bool showTaskDueDateError;
-        public bool ShowTaskDueDateError
+        private bool showPlanningDueDateError;
+        public bool ShowPlanningDueDateError
         {
-            get => showTaskDueDateError;
+            get => showPlanningDueDateError;
             set
             {
-                showTaskDueDateError = value;
-                OnPropertyChanged(nameof(ShowTaskDueDateError));
+                showPlanningDueDateError = value;
+                OnPropertyChanged(nameof(ShowPlanningDueDateError));
             }
         }
         private DateOnly taskDueDate;
@@ -114,7 +113,7 @@ namespace TripPlanApp.ViewModels
         }
         public void ValidateTaskDueDate()
         {
-            this.ShowTaskDueDateError = taskDueDate < DateOnly.FromDateTime(DateTime.Now);
+            this.ShowPlanningDueDateError = taskDueDate < DateOnly.FromDateTime(DateTime.Now);
         }
         #endregion PlanningDueDate
         #region PlanningActualDate
@@ -211,16 +210,16 @@ namespace TripPlanApp.ViewModels
         private async void SavePlanning()
         {
             //Validate the task fields
-            ValidateTaskDescription();
+            ValidatePlanningDescription();
             ValidateTaskDueDate();
             ValidatePlanningActualDate();
             //If there are errors, return
-            if (ShowTaskDescriptionError || ShowTaskDueDateError || ShowPlanningActualDateError)
+            if (ShowPlanningDescriptionError || ShowPlanningDueDateError || ShowPlanningActualDateError)
                 return;
             InServerCall = true;
             PlanGroup? updatedUserPlanning = new PlanGroup();
             updatedUserPlanning.PlanId = planning.PlanId;
-            updatedUserPlanning.GroupDescription = TaskDescription;
+            updatedUserPlanning.GroupDescription = PlanningDescription;
             updatedUserPlanning.TaskDueDate = taskDueDate;
             updatedUserPlanning.TaskActualDate = planningActualDate;
             updatedUserPlanning.TaskComments = PlanningPlaces.ToList();
@@ -245,8 +244,8 @@ namespace TripPlanApp.ViewModels
                 }
                 ((App)Application.Current).LoggedInUser.UserTasks.Add(updatedUserPlanning);
                 //Refresh tasks list 
-                UserPageViewModel tasksViewModel = serviceProvider.GetService<UserPageViewModel>();
-                tasksViewModel.Refresh();
+                UserPageViewModel planningsViewModel = serviceProvider.GetService<UserPageViewModel>();
+                planningsViewModel.Refresh();
                 //Navigate back to the main page
                 await Shell.Current.Navigation.PopAsync();
             }

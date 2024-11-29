@@ -86,6 +86,12 @@ namespace TripPlanApp.ViewModels
             InitializeUserPlannings();
         }
 
+        //This is a public method that should be called when the page needs to be refreshed
+        public void Refresh()
+        {
+            
+        }
+
         private async void InitializeUserPlannings()
         {
             try
