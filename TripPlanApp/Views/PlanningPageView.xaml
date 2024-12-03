@@ -2,13 +2,42 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="TripPlanApp.Views.PlanningPageView"
-             Title="PlanningPageView"
+             Title="Edit planning"
+             xmlns:models="clr-namespace:TripPlanApp.Models"
              xmlns:viewmodels="clr-namespace:TripPlanApp.ViewModels"
              x:DataType="viewmodels:PlanningPageViewModel">
-    <VerticalStackLayout>
-        <Label 
-            Text="This is a planning page!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+
+    <Grid>
+        <VerticalStackLayout IsEnabled="{Binding NotInServerCall}" Padding="20">
+            
+            <!-- Description -->
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Label Text="Description" Grid.Column="0" Style="{StaticResource labelNameStyle}" />
+                <Label Text="{Binding PlanningDescriptionError}" IsVisible="{Binding ShowPlanningDescriptionError}" Grid.Column="1" Style="{StaticResource labelErrorStyle}" />
+            </Grid>
+            <Editor Placeholder="Type Description" Text="{Binding PlanningDescription}" Style="{StaticResource entryStyle}" />
+
+
+            <!-- Save and Cancel Buttons-->
+            <Grid ColumnSpacing="10" Padding="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Button Text="Cancel" Command="{Binding CancelCommand}" Padding="10" Grid.Column="0"/>
+                <Button Text="Save" Command="{Binding SavePlanningCommand}" Padding="10" Grid.Column="1"/>
+            </Grid>
+
+
+        </VerticalStackLayout>
+        <!-- Centered ActivityIndicator -->
+        <ActivityIndicator IsRunning="{Binding InServerCall}" 
+           Color="Red" 
+           VerticalOptions="Center" 
+           HorizontalOptions="Center" />
+    </Grid>
 </ContentPage>

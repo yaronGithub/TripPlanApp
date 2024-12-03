@@ -77,99 +77,45 @@ namespace TripPlanApp.ViewModels
 
         #endregion PlanningDescription
 
-        #region PlanningDueDate
-        private bool showPlanningDueDateError;
-        public bool ShowPlanningDueDateError
+        #region PlanningGroupName
+        private bool showGroupNameError;
+        public bool ShowGroupNameError
         {
-            get => showPlanningDueDateError;
+            get => showGroupNameError;
             set
             {
-                showPlanningDueDateError = value;
-                OnPropertyChanged(nameof(ShowPlanningDueDateError));
+                showGroupNameError = value;
+                OnPropertyChanged(nameof(ShowGroupNameError));
             }
         }
-        private DateOnly taskDueDate;
-        public DateTime TaskDueDate
+        private string groupName;
+        public string GroupName
         {
-            get => taskDueDate.ToDateTime(TimeOnly.MinValue);
-            set
-            {
-                taskDueDate = new DateOnly(value.Year, value.Month, value.Day);
-                ValidateTaskDueDate();
-                OnPropertyChanged(nameof(TaskDueDate));
+            get => groupName;
+            set 
+            { 
+                this.groupName = value;
+                ValidateGroupName();
+                OnPropertyChanged(nameof(GroupName));
             }
         }
 
-        private string taskDueDateError;
-        public string TaskDueDateError
+        private string planningGroupNameError;
+        public string PlanningGroupNameError
         {
-
-            get => taskDueDateError;
+            get => planningGroupNameError;
             set
             {
-                taskDueDateError = value;
-                OnPropertyChanged(nameof(TaskDueDateError));
+                planningGroupNameError = value;
+                OnPropertyChanged(nameof(PlanningGroupNameError));
             }
         }
-        public void ValidateTaskDueDate()
+        public void ValidateGroupName()
         {
-            this.ShowPlanningDueDateError = taskDueDate < DateOnly.FromDateTime(DateTime.Now);
+            this.PlanningGroupNameError = "Group name is required";
+            this.ShowGroupNameError = string.IsNullOrEmpty(GroupName);
         }
-        #endregion PlanningDueDate
-        #region PlanningActualDate
-        private bool showPlanningActualDateError;
-        public bool ShowPlanningActualDateError
-        {
-            get => showPlanningActualDateError;
-            set
-            {
-                showPlanningActualDateError = value;
-                OnPropertyChanged(nameof(ShowPlanningActualDateError));
-            }
-        }
-        private DateOnly? planningActualDate;
-        public DateTime? PlanningActualDate
-        {
-            get
-            {
-                if (planningActualDate == null)
-                    return null;
-                else
-                {
-                    DateOnly val = planningActualDate.Value;
-                    return val.ToDateTime(TimeOnly.MinValue);
-                }
-
-            }
-            set
-            {
-                if (value == null)
-                    planningActualDate = null;
-                else
-                {
-                    DateTime val = value.Value;
-                    planningActualDate = new DateOnly(val.Year, val.Month, val.Day);
-                }
-                ValidatePlanningActualDate();
-                OnPropertyChanged(nameof(PlanningActualDate));
-            }
-        }
-        private string taskActualDateError;
-        public string TaskActualDateError
-        {
-            get => taskActualDateError;
-            set
-            {
-                taskActualDateError = value;
-                OnPropertyChanged(nameof(TaskActualDateError));
-            }
-        }
-        public void ValidatePlanningActualDate()
-        {
-            this.ShowPlanningActualDateError = false;
-
-        }
-        #endregion PlanningActualDate
+        #endregion PlanningGroupName
 
         #region Places collection
         //Define an ObservableCollection of TaskComment to hold the comments for the task
@@ -183,24 +129,7 @@ namespace TripPlanApp.ViewModels
                 OnPropertyChanged(nameof(PlanningPlaces));
             }
         }
-        //Define a property to hold the new comment text
-        private string newComment;
-        public string NewComment
-        {
-            get => newComment;
-            set
-            {
-                newComment = value;
-                OnPropertyChanged(nameof(NewComment));
-                OnPropertyChanged(nameof(EnableNewCommentButton));
-            }
-        }
-        //define a boolean property to indiczte if the new comment field is not empty
-        public bool EnableNewCommentButton
-        {
-            get => !string.IsNullOrEmpty(NewComment);
-        }
-
+        
         #endregion Places collection
 
         #region Save Planning
@@ -209,20 +138,17 @@ namespace TripPlanApp.ViewModels
         //define a method to perform the save operation
         private async void SavePlanning()
         {
-            //Validate the task fields
+            //Validate the planning fields
             ValidatePlanningDescription();
-            ValidateTaskDueDate();
-            ValidatePlanningActualDate();
+            ValidateGroupName();
             //If there are errors, return
-            if (ShowPlanningDescriptionError || ShowPlanningDueDateError || ShowPlanningActualDateError)
+            if (ShowPlanningDescriptionError || ShowGroupNameError)
                 return;
             InServerCall = true;
             PlanGroup? updatedUserPlanning = new PlanGroup();
             updatedUserPlanning.PlanId = planning.PlanId;
+            updatedUserPlanning.GroupName = planning.GroupName;
             updatedUserPlanning.GroupDescription = PlanningDescription;
-            updatedUserPlanning.TaskDueDate = taskDueDate;
-            updatedUserPlanning.TaskActualDate = planningActualDate;
-            updatedUserPlanning.TaskComments = PlanningPlaces.ToList();
             updatedUserPlanning.UserId = ((App)Application.Current).LoggedInUser.UserId;
             //If the task is new, add it to the database
             if (planning.PlanId == 0)
@@ -240,9 +166,9 @@ namespace TripPlanApp.ViewModels
                 //Update the Logged in user with the updated planning!
                 if (planning.PlanId != 0)
                 {
-                    ((App)Application.Current).LoggedInUser.UserTasks.Remove(UserTask);
+                    //((App)Application.Current).LoggedInUser.UserTasks.Remove(UserTask);
                 }
-                ((App)Application.Current).LoggedInUser.UserTasks.Add(updatedUserPlanning);
+                //((App)Application.Current).LoggedInUser.UserTasks.Add(updatedUserPlanning);
                 //Refresh tasks list 
                 UserPageViewModel planningsViewModel = serviceProvider.GetService<UserPageViewModel>();
                 planningsViewModel.Refresh();

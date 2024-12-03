@@ -53,7 +53,7 @@ namespace TripPlanApp.ViewModels
                 {
                     // Extract the Id property by from the task object
                     int id = value.PlanId;
-                    SelectedPlanning = userPlannings.Where(t => t.PlanId == id).FirstOrDefault();
+                    SelectedPlanning = userPlannings.FirstOrDefault(t => t.PlanId == id);
                 }
                 else
                     SelectedPlanning = null;
@@ -61,8 +61,8 @@ namespace TripPlanApp.ViewModels
             }
         }
 
-        private PlanGroup selectedPlanning;
-        public PlanGroup SelectedPlanning
+        private PlanGroup? selectedPlanning;
+        public PlanGroup? SelectedPlanning
         {
             get => selectedPlanning;
             set
@@ -80,7 +80,7 @@ namespace TripPlanApp.ViewModels
             AddPlanningCommand = new Command(OnAddPlanning);
 
             SearchText = "";
-
+            FilteredUserPlannings = new ObservableCollection<PlanningDisplay>();
 
             // Initialize userPlannings asynchronously
             InitializeUserPlannings();
@@ -96,6 +96,7 @@ namespace TripPlanApp.ViewModels
         {
             try
             {
+                InServerCall = true;
                 // Get all user plannings
                 userPlannings = await proxy.GetAllPlannings(((App)Application.Current).LoggedInUser.Email);
 
@@ -108,6 +109,7 @@ namespace TripPlanApp.ViewModels
                         StartDate = p.StartDate,
                         EndDate = p.EndDate
                     }));
+                InServerCall = false;
             }
             catch (Exception ex)
             {
