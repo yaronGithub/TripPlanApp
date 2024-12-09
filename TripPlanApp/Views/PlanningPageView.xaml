@@ -17,9 +17,12 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Label Text="Description" Grid.Column="0" Style="{StaticResource labelNameStyle}" />
+                
                 <Label Text="{Binding PlanningDescriptionError}" IsVisible="{Binding ShowPlanningDescriptionError}" Grid.Column="1" Style="{StaticResource labelErrorStyle}" />
             </Grid>
             <Editor Placeholder="Type Description" Text="{Binding PlanningDescription}" Style="{StaticResource entryStyle}" />
+            <Label Text="{Binding GroupName}"/>
+            <Label Text="{Binding}"/>
 
 
             <!-- Save and Cancel Buttons-->

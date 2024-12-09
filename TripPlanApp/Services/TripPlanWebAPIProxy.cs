@@ -67,7 +67,7 @@ namespace TripPlanApp.Services
                 {
                     return null;
                 }
-            }
+            } 
             catch (Exception ex)
             {
                 return null;

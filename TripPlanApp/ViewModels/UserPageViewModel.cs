@@ -105,6 +105,7 @@ namespace TripPlanApp.ViewModels
                     userPlannings.Select(p => new PlanningDisplay
                     {
                         PlanId = p.PlanId,
+                        GroupName = p.GroupName,
                         GroupDescription = p.GroupDescription,
                         StartDate = p.StartDate,
                         EndDate = p.EndDate
@@ -141,6 +142,7 @@ namespace TripPlanApp.ViewModels
             PlanGroup planning = new PlanGroup()
             {
                 PlanId = 0,
+                GroupName = "",
                 GroupDescription = "",
                 StartDate = DateOnly.FromDateTime(DateTime.Now),
                 EndDate = null,
@@ -162,6 +164,7 @@ namespace TripPlanApp.ViewModels
     public class PlanningDisplay
     {
         public int PlanId { get; set; }
+        public string GroupName { get; set; } = null!;
         public string GroupDescription { get; set; } = null!;
         public DateOnly? StartDate { get; set; }
         public DateOnly? EndDate { get; set; }

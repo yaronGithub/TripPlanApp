@@ -16,7 +16,7 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <SearchBar Placeholder="Search plannings" 
+            <SearchBar Placeholder="Search plannings"
                Text="{Binding SearchText}" Grid.Row="0" Grid.Column="0"/>
             <Button Text="+" FontSize="Large" Grid.Row="0" Grid.Column="1" CornerRadius="30" Command="{Binding AddPlanningCommand}"/>
             
@@ -27,8 +27,11 @@
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <StackLayout Padding="10">
-                        <Label Text="{Binding }"/>
-                        <Label Text="{Binding SelectedPlanning.GroupDescription}"/>
+                        <Label Text="{Binding PlanId}"/>
+                        <Label Text="{Binding GroupName}"/>
+                        <Label Text="{Binding GroupDescription}"/>
+                        <Label Text="{Binding StartDate, StringFormat='Start date: {0:MM/dd/yyyy}'}" FontSize="Small" FontAttributes="Italic"/>
+                        <Label Text="{Binding EndDate, StringFormat='End date: {0:MM/dd/yyyy}'}" FontSize="Small" FontAttributes="Italic"/>
                     </StackLayout>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
