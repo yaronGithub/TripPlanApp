@@ -4,7 +4,8 @@
              x:Class="TripPlanApp.Views.UserPageView"
              Title="Plannings"
              xmlns:viewmodels="clr-namespace:TripPlanApp.ViewModels"
-             x:DataType="viewmodels:UserPageViewModel">
+             >
+    <!--:DataType="viewmodels:UserPageViewModel"-->
 
     <VerticalStackLayout Padding="10">
         <Grid>

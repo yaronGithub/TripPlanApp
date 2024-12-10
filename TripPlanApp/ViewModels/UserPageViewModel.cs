@@ -37,7 +37,7 @@ namespace TripPlanApp.ViewModels
             set
             {
                 searchText = value;
-                //FilterPlannings();
+                FilterPlannings();
                 OnPropertyChanged();
             }
         }
@@ -79,17 +79,39 @@ namespace TripPlanApp.ViewModels
             this.proxy = proxy;
             AddPlanningCommand = new Command(OnAddPlanning);
 
-            SearchText = "";
+            
             FilteredUserPlannings = new ObservableCollection<PlanningDisplay>();
 
             // Initialize userPlannings asynchronously
             InitializeUserPlannings();
+            SearchText = "";
         }
 
         //This is a public method that should be called when the page needs to be refreshed
         public void Refresh()
         {
             
+        }
+
+        private void FilterPlannings()
+        {
+            filteredUserPlannings.Clear();
+            if (userPlannings == null) { return; }
+            foreach (var plan in userPlannings)
+            {
+                if (plan.GroupName.Contains(SearchText) || string.IsNullOrEmpty(SearchText))
+                {
+                    FilteredUserPlannings.Add(new PlanningDisplay()
+                    {
+                        PlanId = plan.PlanId,
+                        GroupName = plan.GroupName,
+                        GroupDescription = plan.GroupDescription,
+                        StartDate = plan.StartDate,
+                        EndDate = plan.EndDate
+                    });
+                }
+            }
+
         }
 
         private async void InitializeUserPlannings()
